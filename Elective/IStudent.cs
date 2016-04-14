@@ -8,6 +8,7 @@ namespace Elective
 {
     public interface IStudent
     {
+        string Name { get; }
         void RegisterOnCourse(ICourse course);
         bool ObserveCourse(ICourse course);
         bool DoHomework();
