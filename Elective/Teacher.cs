@@ -8,22 +8,34 @@ namespace Elective
 {
     public class Teacher : IMentor
     {
+        #region Fields
         private ICourse course;
+        private static readonly int maxNumberOfStudents = 30;
+        #endregion
 
-        public ICourse Course { get { return course;} }
+        #region Property
 
-        public void OpenCourse(CourseManager manager, int numberOfStudent, string name)
+        public ICourse Course
         {
-            course = manager.CreateCourse(numberOfStudent,name, this);
+            get
+            {
+                if(course == null)
+                    throw new ArgumentNullException();
+                return course;
+            }
         }
 
-        public string CheckHomework(bool done)
+        #endregion
+
+        #region IMentor Implementation
+
+        public void OpenCourse(CourseManager manager, int numberOfStudent, string name = "Unname")
         {
-            Console.WriteLine("Check homework");
-            if (done == true)
-                return $"Course \"{Course.Name}\" is passed.";
-            else
-                return $"Course \"{Course.Name}\" isn't passed.";
+            if(manager == null)
+                throw new ArgumentNullException();
+            if(numberOfStudent < 0 || numberOfStudent > maxNumberOfStudents)
+                throw new AggregateException();
+            course = manager.CreateCourse(numberOfStudent,name, this);
         }
 
         public ICourse CloseCourse()
@@ -35,5 +47,15 @@ namespace Elective
                 return course;
             }
         }
+
+        string IMentor.CheckHomework(bool done)
+        {
+            if (done == true)
+                return $"Course \"{Course.Name}\" is passed.";
+            else
+                return $"Course \"{Course.Name}\" isn't passed.";
+        }
+#endregion
+
     }
 }
