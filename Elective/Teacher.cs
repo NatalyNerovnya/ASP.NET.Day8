@@ -12,18 +12,18 @@ namespace Elective
 
         public ICourse Course { get { return course;} }
 
-        public void OpenCourse(CourseManager manager, int numberOfStudent)
+        public void OpenCourse(CourseManager manager, int numberOfStudent, string name)
         {
-            course = manager.CreateCourse(numberOfStudent, this);
+            course = manager.CreateCourse(numberOfStudent,name, this);
         }
 
         public string CheckHomework(bool done)
         {
             Console.WriteLine("Check homework");
             if (done == true)
-                return $"{nameof(course).ToString()} is passed";
+                return $"Course \"{Course.Name}\" is passed.";
             else
-                return $"{nameof(course).ToString()} isn't passed";
+                return $"Course \"{Course.Name}\" isn't passed.";
         }
 
         public ICourse CloseCourse()

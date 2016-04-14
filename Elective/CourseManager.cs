@@ -8,6 +8,6 @@ namespace Elective
 {
     public abstract class CourseManager
     {
-        public abstract ICourse CreateCourse(int number, IMentor mentor);
+        public abstract ICourse CreateCourse(int number,string name, IMentor mentor);
     }
 }

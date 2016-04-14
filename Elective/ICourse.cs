@@ -8,6 +8,7 @@ namespace Elective
 {
     public interface ICourse
     {
+        string Name { get; }
         bool IsFinish { get; }
         void ObserveStudents(IStudent student, IArchive archive);
         void NotifyBeginOfCourse();

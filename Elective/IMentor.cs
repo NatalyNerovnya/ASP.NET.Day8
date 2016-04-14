@@ -9,7 +9,7 @@ namespace Elective
     public interface IMentor
     {
         ICourse Course { get; }
-        void OpenCourse(CourseManager manager, int numberOfStudent);
+        void OpenCourse(CourseManager manager, int numberOfStudent, string name);
         string CheckHomework(bool done);
         ICourse CloseCourse();
     }

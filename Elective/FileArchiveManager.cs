@@ -16,15 +16,17 @@ namespace Elective
 
             public FileArchive(string name)
             {
-                //создай файл и сделай проверку на повторение файлов
                 path += $@"\{name}.txt";
-                File.AppendAllText(path, $"{name}\n");
-
+                SaveInfo(name);
             }
 
-            public void SaveInfo(string mark)
+            public void SaveInfo(string str)
             {
-                File.AppendAllText(path, mark);
+                StreamWriter write;
+                FileInfo file = new FileInfo(path);
+                write = file.AppendText();
+                write.WriteLine(str);
+                write.Close();
             }
         }
 

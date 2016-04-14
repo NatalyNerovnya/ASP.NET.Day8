@@ -15,6 +15,9 @@ namespace Elective
             private int numberOfStudents;
             private IMentor teacher;
             private bool isFinish = false;
+            private string name;
+
+            public string Name { get { return name;} set { name = value; } }
 
             public bool IsFinish
             {
@@ -22,10 +25,11 @@ namespace Elective
                 private set { isFinish = value; }
             }
 
-            public MathCourse(int number, IMentor mentor)
+            public MathCourse(int number,string name, IMentor mentor)
             {
                 teacher = mentor;
                 numberOfStudents = number;
+                Name = name;
                 group = new List<IStudent>();
                 archives = new List<IArchive>();
             }
@@ -67,9 +71,9 @@ namespace Elective
             }
         }
 
-        public override ICourse CreateCourse(int number, IMentor mentor)
+        public override ICourse CreateCourse(int number, string name, IMentor mentor)
         {
-            return new MathCourse(number, mentor);
+            return new MathCourse(number,name, mentor);
         }
     }
 }

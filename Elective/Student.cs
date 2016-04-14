@@ -26,7 +26,11 @@ namespace Elective
         {
             Name = name;
         }
-        //перенный конструктор студента, который не знает на какой курс пойти
+
+        public Student(string name, ICourse course):this(name)
+        {
+            RegisterOnCourse(course);
+        }
 
         public bool ObserveCourse(ICourse course)
         {
@@ -42,10 +46,17 @@ namespace Elective
 
         public void RegisterOnCourse(ICourse course)
         {
-            // проверка на наличие архива
-            ArchiveManager manager = new FileArchiveManager();
-            archive = manager.CreateArchive(Name);
+            if (!IsArchiveExist())
+            {
+                ArchiveManager manager = new FileArchiveManager();
+                archive = manager.CreateArchive(this.Name);
+            }
             course.ObserveStudents(this, archive);
+        }
+
+        private bool IsArchiveExist()
+        {
+            return ReferenceEquals(archive, null) ? false : true;
         }
     }
 }
