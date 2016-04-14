@@ -4,18 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using NLog;
 
 namespace Elective
 {
     public class FileArchiveManager : ArchiveManager
     {
+        #region NLog field
+        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
+        #endregion
         #region Field(internal class)
         private class FileArchive : IArchive
         {
             #region Fields
-            private readonly string path =
-                @"C:\Users\1\Documents\Visual Studio 2015\Projects\ASP.NET.2.Nerovnya.Day8\Archives";
 
+            private readonly string path = Environment.CurrentDirectory;
+            
             private static int unnameStudent = 1;
             #endregion
 
@@ -30,6 +34,7 @@ namespace Elective
                     name = $"Student{unnameStudent++}";
 
                 path += $@"\{name}.txt";
+                logger.Info($"Creating archive with path : {path}");
                 SaveInfo(name);
             }
             #endregion
@@ -39,6 +44,7 @@ namespace Elective
             {
                 if (str == null)
                     throw new ArgumentNullException();
+                logger.Trace($"Write \"{str}\" in archive");
                 StreamWriter write;
                 FileInfo file = new FileInfo(path);
                 write = file.AppendText();
@@ -53,6 +59,7 @@ namespace Elective
         #region ArchiveManager implementation
         public override IArchive CreateArchive(string name = "")
         {
+            logger.Trace($"(in IArchive CreateArchive)");
             return new FileArchive(name);
         }
         #endregion
