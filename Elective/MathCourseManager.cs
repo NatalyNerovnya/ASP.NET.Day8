@@ -8,6 +8,9 @@ using NLog;
 
 namespace Elective
 {
+    /// <summary>
+    /// Manager for math course
+    /// </summary>
     public class MathCourseManager : CourseManager
     {
         #region NLog field
@@ -15,6 +18,9 @@ namespace Elective
         #endregion
 
         #region Field(internal class)
+        /// <summary>
+        /// Math course
+        /// </summary>
         private class MathCourse : ICourse
         {
             #region Fields
@@ -61,6 +67,12 @@ namespace Elective
             #endregion
 
             #region Constructors
+            /// <summary>
+            /// Create math course
+            /// </summary>
+            /// <param name="number">Max number of students in the group</param>
+            /// <param name="name">Name of the course</param>
+            /// <param name="mentor">Reference on mentor</param>
             public MathCourse(int number, string name, IMentor mentor)
             {
                 if (number < 0)
@@ -78,6 +90,9 @@ namespace Elective
             #endregion
 
             #region ICourse Implementation
+            /// <summary>
+            /// Notify about beggining. Do and check hometask
+            /// </summary>
             public void NotifyBeginOfCourse()
             {
                 bool done;
@@ -86,7 +101,7 @@ namespace Elective
                 for (int i = 0; i < numberOfStudents; i++)
                 {
                     logger.Trace($"Notify {group[i].Name}");
-                    done = group[i].ObserveCourse(this);
+                    done = group[i].ObserveCourse();
                     logger.Trace($"Send homework of {group[i].Name} to teacher");
                     mark = NotifyHometask(done);
                     SetMark(archives[i], mark);
@@ -94,7 +109,11 @@ namespace Elective
                 logger.Trace($"All homeroks is done. Finish the course");
                 IsFinish = true;
             }
-
+            /// <summary>
+            /// Send mark in archive
+            /// </summary>
+            /// <param name="archive">Student archive</param>
+            /// <param name="mark">MArk</param>
             public void SetMark(IArchive archive, string mark)
             {
                 if (archive == null || mark == null)
@@ -102,7 +121,11 @@ namespace Elective
                 logger.Trace($"Set mark({mark}) in archive");
                 archive.SaveInfo(mark);
             }
-
+            /// <summary>
+            /// Notify teacher about unchecked homework
+            /// </summary>
+            /// <param name="done">Homework</param>
+            /// <returns>Mark</returns>
             public string NotifyHometask(bool done)
             {
                 if (teacher == null)
@@ -110,11 +133,17 @@ namespace Elective
                 logger.Trace("Notify hometask");
                 return teacher.CheckHomework(done);
             }
-
+            /// <summary>
+            /// Observe registration of srudents
+            /// </summary>
+            /// <param name="student">Student</param>
+            /// <param name="studentArchive">Students' archive</param>
             public void ObserveStudents(IStudent student, IArchive studentArchive)
             {
                 if (student == null || studentArchive == null)
                     throw new ArgumentNullException();
+                if (IsStudentInGroup(student))
+                    return;
                 logger.Trace("Looking after registration of students");
                 if (group.Count < numberOfStudents)
                 {
@@ -126,10 +155,30 @@ namespace Elective
                     NotifyBeginOfCourse();
             }
             #endregion
+
+            #region Private Methods
+
+            private bool IsStudentInGroup(IStudent student)
+            {
+                logger.Trace($"{student.Name} is already in group");
+                for (int i = 0; i < group.Count; i++)
+                {
+                    if (ReferenceEquals(student, group[i]))
+                        return true;
+                }
+                return false;
+            } 
+#endregion
         }
         #endregion
 
         #region CourseManager Implementation
+        /// <summary>
+        /// Create math course
+        /// </summary>
+        /// <param name="number">Max number of students in the group</param>
+        /// <param name="name">Name of the course</param>
+        /// <param name="mentor">Reference on mentor</param>
         public override ICourse CreateCourse(int number, string name, IMentor mentor)
         {
             if(number < 0)
