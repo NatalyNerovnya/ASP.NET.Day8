@@ -7,6 +7,9 @@ using NLog;
 
 namespace Elective
 {
+    /// <summary>
+    /// Class for describing ordinary student
+    /// </summary>
     public class Student : IStudent
     {
         #region NLog field
@@ -40,7 +43,10 @@ namespace Elective
         #endregion
 
         #region Constructors
-
+        /// <summary>
+        /// Create student
+        /// </summary>
+        /// <param name="name">Name of student</param>
         public Student(string name)
         {
             if(name == null)
@@ -49,7 +55,11 @@ namespace Elective
             logger.Info($"Student name is {name}");
             Name = name;
         }
-
+        /// <summary>
+        /// Create student
+        /// </summary>
+        /// <param name="name">Name of student</param>
+        /// <param name="course">Ref on course</param>
         public Student(string name, ICourse course):this(name)
         {
             logger.Trace("Create student");
@@ -57,7 +67,11 @@ namespace Elective
             CheckCourse(course);
             RegisterOnCourse(course);
         }
-
+        /// <summary>
+        /// Create student
+        /// </summary>
+        /// <param name="name">Name of student</param>
+        /// <param name="mentor">Ref on mentor, who has a course</param>
         public Student(string name, IMentor mentor):this(name)
         {
             if(mentor == null)
@@ -70,13 +84,19 @@ namespace Elective
         #endregion
 
         #region IStudent Implementation
-        public bool ObserveCourse(ICourse course)
+        /// <summary>
+        /// Observe beggining of course
+        /// </summary>
+        /// <returns>True, if homework is done</returns>
+        public bool ObserveCourse()
         {
-            logger.Trace($"{Name} is waiting for begining of {course.Name}");
-            CheckCourse(course);
+            logger.Trace($"{Name} is waiting for begining of course");
             return ((IStudent)this).DoHomework();
         }
-
+        /// <summary>
+        /// Registration on course
+        /// </summary>
+        /// <param name="course">Reference on course</param>
         public void RegisterOnCourse(ICourse course)
         {
             CheckCourse(course);
@@ -88,7 +108,10 @@ namespace Elective
             logger.Trace($"{Name} is registered on {course.Name}");
             course.ObserveStudents(this, archive);
         }
-
+        /// <summary>
+        /// Do homework
+        /// </summary>
+        /// <returns>True, if homework is done</returns>
         bool IStudent.DoHomework()
         {
             //Какая-то логика, в каких случаях студент делает домашку. В моем случаи все студенты молодцы
