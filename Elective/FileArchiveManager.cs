@@ -10,12 +10,18 @@ namespace Elective
 {
     public class FileArchiveManager : ArchiveManager
     {
+        /// <summary>
+        /// Manager for file archive
+        /// </summary>
         #region NLog field
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         #endregion
         #region Field(internal class)
         private class FileArchive : IArchive
         {
+            /// <summary>
+            /// File Archive
+            /// </summary>
             #region Fields
 
             private readonly string path = Environment.CurrentDirectory;
@@ -28,6 +34,10 @@ namespace Elective
             #endregion
 
             #region Constructor
+            /// <summary>
+            /// Creation of File archive
+            /// </summary>
+            /// <param name="name">name of the file</param>
             public FileArchive(string name)
             {
                 if (name == "" || name == null)
@@ -40,6 +50,10 @@ namespace Elective
             #endregion
 
             #region IArchive implementation
+            /// <summary>
+            /// Save data in archive
+            /// </summary>
+            /// <param name="str">Data to save</param>
             public void SaveInfo(string str)
             {
                 if (str == null)
@@ -57,6 +71,10 @@ namespace Elective
         #endregion
 
         #region ArchiveManager implementation
+        /// <summary>
+        /// Creation of File archive
+        /// </summary>
+        /// <param name="name">name of the file</param>
         public override IArchive CreateArchive(string name = "")
         {
             logger.Trace($"(in IArchive CreateArchive)");
