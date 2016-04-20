@@ -41,16 +41,14 @@ namespace Elective
         /// Create a course
         /// </summary>
         /// <param name="manager">Course maanager</param>
-        /// <param name="numberOfStudent">Max number of students in the group</param>
-        /// <param name="name">Name of the course</param>
-        public void OpenCourse(CourseManager manager, int numberOfStudent, string name = "Unname")
+        public void OpenCourse(CourseManager manager)
         {
             if(manager == null)
                 throw new ArgumentNullException();
-            if(numberOfStudent < 0 || numberOfStudent > maxNumberOfStudents)
+            if(manager.NumberOfStudents < 0 || manager.NumberOfStudents > maxNumberOfStudents)
                 throw new AggregateException();
-            logger.Trace($"Open course {name} with group of {numberOfStudent} students");
-            course = manager.CreateCourse(numberOfStudent,name, this);
+            logger.Trace($"Open course {manager.Name} with group of {manager.NumberOfStudents} students");
+            course = manager.CreateCourse();
         }
         /// <summary>
         /// Close course
