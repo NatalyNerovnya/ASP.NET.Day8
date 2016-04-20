@@ -8,6 +8,14 @@ namespace Elective
 {
     public abstract class ArchiveManager
     {
-        public abstract IArchive CreateArchive(string name);
+        public string Name { get; private set; }
+
+        public ArchiveManager(string name)
+        {
+            if(name == null)
+                throw new ArgumentNullException();
+            Name = name;
+        }
+        public abstract IArchive CreateArchive();
     }
 }

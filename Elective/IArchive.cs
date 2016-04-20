@@ -9,5 +9,6 @@ namespace Elective
     public interface IArchive
     {
         void SaveInfo(string mark);
+        string Path { get; }
     }
 }

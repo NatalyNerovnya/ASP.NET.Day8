@@ -16,6 +16,13 @@ namespace Elective
         #region NLog field
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         #endregion
+
+        #region Constructor
+
+        public FileArchiveManager(string name = ""):base(name)
+        {}
+        #endregion
+
         #region Field(internal class)
         private class FileArchive : IArchive
         {
@@ -25,7 +32,7 @@ namespace Elective
             #region Fields
 
             private readonly string path = Environment.CurrentDirectory;
-            
+
             private static int unnameStudent = 1;
             #endregion
 
@@ -75,10 +82,10 @@ namespace Elective
         /// Creation of File archive
         /// </summary>
         /// <param name="name">name of the file</param>
-        public override IArchive CreateArchive(string name = "")
+        public override IArchive CreateArchive()
         {
             logger.Trace($"(in IArchive CreateArchive)");
-            return new FileArchive(name);
+            return new FileArchive(Name);
         }
         #endregion
     }

@@ -102,8 +102,8 @@ namespace Elective
             CheckCourse(course);
             if (!IsArchiveExist())
             {
-                ArchiveManager manager = new FileArchiveManager();
-                archive = manager.CreateArchive(this.Name);
+                ArchiveManager manager = new FileArchiveManager(Name);
+                archive = manager.CreateArchive();
             }
             logger.Trace($"{Name} is registered on {course.Name}");
             course.ObserveStudents(this, archive);
