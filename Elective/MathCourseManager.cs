@@ -172,21 +172,25 @@ namespace Elective
         }
         #endregion
 
-        #region CourseManager Implementation
+        #region Constructors
         /// <summary>
-        /// Create math course
+        /// Create instance of Math course manager
         /// </summary>
         /// <param name="number">Max number of students in the group</param>
         /// <param name="name">Name of the course</param>
         /// <param name="mentor">Reference on mentor</param>
-        public override ICourse CreateCourse(int number, string name, IMentor mentor)
+        public MathCourseManager(int number, string name, IMentor mentor):base(name, number,mentor)
+        {}
+        #endregion
+
+        #region CourseManager Implementation
+        /// <summary>
+        /// Create math course
+        /// </summary>
+        public override ICourse CreateCourse()
         {
-            if(number < 0)
-                throw new AggregateException();
-            if(name == null || mentor == null)
-                throw new ArgumentNullException();
-            logger.Trace($"(in ICourse CreateCourse)");
-            return new MathCourse(number, name, mentor);
+           logger.Trace($"(in ICourse CreateCourse)");
+            return new MathCourse(NumberOfStudents, Name, Mentor);
         }
         #endregion
     }
